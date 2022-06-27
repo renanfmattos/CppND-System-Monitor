@@ -20,25 +20,17 @@ int Process::Pid() {
 float Process::CpuUtilization() {
     float total_time = (float)LinuxParser::ActiveJiffies(pid_) / sysconf(_SC_CLK_TCK);
     float seconds = (float)LinuxParser::UpTime() - (float)LinuxParser::UpTime(pid_);    
-    return ( total_time / seconds );
-
-    /*float total_time = static_cast<float>( LinuxParser::ActiveJiffies(pid_) );
-    float uptime_system = static_cast<float>( LinuxParser::UpTime() * sysconf(_SC_CLK_TCK) );
-    float uptime_pid = static_cast<float>( LinuxParser::UpTime(pid_) * sysconf(_SC_CLK_TCK) );
-    float seconds = uptime_system - uptime_pid;    
-    return ( total_time / seconds );*/
-
-    /*
-    long total_time = LinuxParser::ActiveJiffies(pid);
-    long seconds = LinuxParser::UpTime() - LinuxParser::UpTime(pid);
-    cpu_util = 100 * ( (total_time / sysconf(_SC_CLK_TCK)) / seconds );
-    return  cpu_util;    
-    */    
+    return ( total_time / seconds );  
 }
 
 // DONE: Return the command that generated this process
 string Process::Command() {
-    return LinuxParser::Command(pid_);
+    string cmd = LinuxParser::Command(pid_);
+    if (cmd.size()<=50)
+      return cmd;
+    else
+      return cmd.substr(0,46) + "...";
+
 }
 
 // DONE: Return this process's memory utilization
@@ -48,12 +40,16 @@ string Process::Ram() {
 
 // DONE: Return the user (name) that generated this process
 string Process::User() {
-    return LinuxParser::User(pid_); 
+    string cmd = LinuxParser::User(pid_);
+    if (cmd.size()<=6)
+      return cmd;
+    else
+      return cmd.substr(0,3) + ".. ";    
 }
 
 // DONE: Return the age of this process (in seconds)
 long int Process::UpTime() {
-    return LinuxParser::UpTime(pid_);     
+    return LinuxParser::UpTime() - LinuxParser::UpTime(pid_);    
 }
 
 // DONE: Overload the "less than" comparison operator for Process objects

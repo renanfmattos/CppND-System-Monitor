@@ -10,6 +10,41 @@ using std::string;
 using std::to_string;
 using std::vector;
 
+//Generic function provided by Udacity revisor. Thank you!
+template <typename T>
+T LinuxParser::findValueByKey(std::string const &keyFilter, std::string const &filename) {
+  std::string line, key;
+  T value;
+
+  std::ifstream stream(kProcDirectory + filename);
+  if (stream.is_open()) {
+    while (std::getline(stream, line)) {
+      std::istringstream linestream(line);
+      while (linestream >> key >> value) {
+        if (key == keyFilter) {
+          return value;
+        }
+      }
+    }
+  }
+  return value;
+};
+
+//Generic function provided by Udacity revisor. Thank you!
+template <typename T>
+T LinuxParser::getValueOfFile(std::string const &filename) {
+  std::string line;
+  T value;
+
+  std::ifstream stream(kProcDirectory + filename);
+  if (stream.is_open()) {
+    std::getline(stream, line);
+    std::istringstream linestream(line);
+    linestream >> value;
+  }
+  return value;
+};
+
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -296,7 +331,8 @@ long LinuxParser::UpTime(int pid) {
       std::istringstream linestream(line);      
       for (int i = 1; i<=22; i++)
         linestream >> starttime;
-      return std::stol(starttime) / sysconf(_SC_CLK_TCK);  
+      
+      return std::stol(starttime) / sysconf(_SC_CLK_TCK);   
    }
   else
     return 0;   

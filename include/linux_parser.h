@@ -27,6 +27,12 @@ int RunningProcesses();
 std::string OperatingSystem();
 std::string Kernel();
 
+template <typename T>
+T findValueByKey(std::string const &keyFilter, std::string const &filename);
+
+template <typename T>
+T getValueOfFile(std::string const &filename);
+
 // CPU
 enum CPUStates {
   kUser_ = 0,
