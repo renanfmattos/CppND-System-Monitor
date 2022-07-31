@@ -18,6 +18,18 @@ const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
+// Keys
+const std::string defaultOSName("Linux");
+const std::string filterPrettyName("PRETTY_NAME");
+const std::string filterProcesses("processes");
+const std::string filterRunningProcesses("procs_running");
+const std::string filterMemTotalString("MemTotal:");
+const std::string filterMemFreeString("MemFree:");
+const std::string filterCpu("cpu");
+const std::string filterUID("Uid:");
+const std::string filterProcMem("VmRSS:"); //I have used VmRSS instead of VmSize. https://review.udacity.com/#!/reviews/3524005
+const std::string defaultStringValue("unknow");
+
 // System
 float MemoryUtilization();
 long UpTime();
